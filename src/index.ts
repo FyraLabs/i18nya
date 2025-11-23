@@ -1,4 +1,4 @@
-import fs from "fs";
+import { readdirSync } from "fs";
 import path from "path";
 
 export type I18NyaConfig = {
@@ -10,13 +10,18 @@ export type I18NyaConfig = {
 };
 
 export type Interpolations = Record<string, string | { toString(): string }>;
+const opts = { with: { type: "json" } };
 
 export const init = async ({
   langDir,
   defaultLang: rootLang,
   fallbackLangs: fb = {},
 }: I18NyaConfig) => {
-  const DefaultTranslations = await import(`${langDir}/${rootLang}.json`);
+  let DefaultTranslations;
+  try {
+    // HACK: ignore error when import json fails in javascript
+    DefaultTranslations = await import(`${langDir}/${rootLang}.json`, opts);
+  } catch (_) {}
   type TransKeys = keyof typeof DefaultTranslations;
   type I18Nya = {
     translations: Record<string, Record<TransKeys, string>>;
@@ -39,10 +44,11 @@ export const init = async ({
         return s;
       },
   };
-  for (const entry of fs.readdirSync(langDir, { withFileTypes: true })) {
+  for (const entry of readdirSync(langDir, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith(".json")) {
       const lang = entry.name.slice(0, -5);
-      i18nya.translations[lang] = await import(path.join(langDir, entry.name));
+      const imp = await import(`${langDir}/${lang}.json`, opts);
+      i18nya.translations[lang] = imp.default;
     }
   }
   return i18nya;
