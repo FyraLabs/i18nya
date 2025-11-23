@@ -1,0 +1,32 @@
+{
+  "name": "i18nya",
+  "version": "0.1.0",
+  "description": "i18n as small as a cat's paw",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FyraLabs/i18nya.git"
+  },
+  "keywords": [
+    "internationalization",
+    "i18n",
+    "translation",
+    "localization",
+    "l10n",
+    "globalization"
+  ],
+  "author": "madonuko <mado@fyralabs.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FyraLabs/i18nya/issues"
+  },
+  "homepage": "https://github.com/FyraLabs/i18nya#readme",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  }
+}
