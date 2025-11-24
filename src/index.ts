@@ -1,5 +1,4 @@
 import { readdirSync } from "fs";
-import path from "path";
 
 export type I18NyaConfig = {
   /** Path to directory containing language files */
@@ -17,11 +16,7 @@ export const init = async ({
   defaultLang: rootLang,
   fallbackLangs: fb = {},
 }: I18NyaConfig) => {
-  let DefaultTranslations;
-  try {
-    // HACK: ignore error when import json fails in javascript
-    DefaultTranslations = await import(`${langDir}/${rootLang}.json`, opts);
-  } catch (_) {}
+  const DefaultTranslations = await import(`${langDir}/${rootLang}.json`, opts);
   type TransKeys = keyof typeof DefaultTranslations;
   type I18Nya = {
     translations: Record<string, Record<TransKeys, string>>;
@@ -29,20 +24,15 @@ export const init = async ({
   };
   let i18nya: I18Nya = {
     translations: {},
-    makeT:
-      (l: string) =>
-      (k: TransKeys, its: Interpolations = {}) => {
-        let s: string | undefined;
-        for (; !(s = i18nya.translations[l]?.[k]); l = fb[l] ?? rootLang) {
-          if (l === rootLang) {
-            return String(k);
-          }
-        }
-        for (const [k, v] of Object.entries(its)) {
-          s = s.replace(`{{${k}}}`, `${v}`);
-        }
-        return s;
-      },
+    makeT: (l: string) => (k: TransKeys, its: Interpolations = {}) => {
+      let s: string | undefined;
+      for (; !(s = i18nya.translations[l]?.[k]); l = fb[l] ?? rootLang)
+        if (l === rootLang)
+          return String(k);
+      for (const [k, v] of Object.entries(its))
+        s = s.replace(`{{${k}}}`, `${v}`);
+      return s;
+    },
   };
   for (const entry of readdirSync(langDir, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith(".json")) {
