@@ -10,20 +10,32 @@
     "module": "Preserve",
     "moduleDetection": "force",
     "jsx": "react-jsx",
+    "types": ["node"],
     "allowJs": true,
 
-    // Bundler mode
+    // Output settings
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Module resolution
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
     "noEmit": true,
+    "verbatimModuleSyntax": false,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
 
     // Best practices
     "strict": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
+    "strictNullChecks": false,
+    // "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
+    "noUncheckedSideEffectImports": true,
 
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,

@@ -1,9 +1,41 @@
 {
   "name": "astro-i18nya",
-  "module": "src/index.ts",
-  "type": "module",
+  "version": "0.1.0",
+  "description": "Astro integration for i18nya: i18n as small as a cat's paw",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FyraLabs/i18nya.git"
+  },
+  "keywords": [
+    "astro",
+    "internationalization",
+    "i18n",
+    "translation",
+    "localization",
+    "l10n",
+    "globalization"
+  ],
+  "author": "madonuko <mado@fyralabs.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FyraLabs/i18nya/issues"
+  },
+  "homepage": "https://github.com/FyraLabs/i18nya#readme",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
+    "babel-jest": "^30.2.0",
+    "jest": "^30.2.0",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "typescript": "^5"
