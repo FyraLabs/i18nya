@@ -1,8 +1,9 @@
-import { I18Nya } from "i18nya";
-import { AstroIntegration } from "astro";
+import type { I18Nya } from "i18nya";
+import type { AstroIntegration } from "astro";
 import react from "@astrojs/react";
 import Trans from "./Trans";
-export { Trans };
+import { listLang, getLangName } from "./util";
+export { Trans, listLang, getLangName };
 
 export default function (i18nya: I18Nya): AstroIntegration {
   return {

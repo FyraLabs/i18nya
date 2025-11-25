@@ -11,7 +11,7 @@
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "astro": "^5.16.0",
-    "i18nya": "file:../",
+    "i18nya": "^0.1.0",
     "react": "^19.2.0"
   }
 }
