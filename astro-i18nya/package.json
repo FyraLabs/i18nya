@@ -4,6 +4,7 @@
   "description": "Astro integration for i18nya: i18n as small as a cat's paw",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "jest"
@@ -12,8 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/FyraLabs/i18nya.git"
   },
+  "jest": {
+    "testPathIgnorePatterns": ["<rootDir>/dist"]
+  },
   "keywords": [
     "astro",
+    "astro-integration",
     "internationalization",
     "i18n",
     "translation",
@@ -38,6 +43,7 @@
     "@types/node": "^24.10.1",
     "babel-jest": "^30.2.0",
     "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "react-test-renderer": "^19.2.0",
     "typescript": "^5.9.3"
   },
@@ -45,10 +51,8 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
     "astro": "^5.16.0",
     "i18nya": "^0.1.0",
-    "jest-environment-jsdom": "^30.2.0",
     "react": "^19.2.0"
   }
 }

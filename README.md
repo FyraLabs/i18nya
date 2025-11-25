@@ -5,7 +5,7 @@ Its tiny footprint and simple API make it perfect for projects that want localiz
 
 ## Features
 
-- 🐾 **Tiny**: Less than 50 lines of TypeScript. `init("langs/")`, `makeT(locale)` and start translating with `t()`.
+- 🐾 **Tiny**: Less than 50 lines of TypeScript, 0 dependencies.
 - ⏬️ **Flexible fallback**: Supports fallback languages out of the box.
 - 🧩 **Extensible**: Can be easily extended to integrate into other frameworks (e.g. `astro-i18nya`).
 - 🔨 **Typed**: Optional translation key completions for `t()`.
@@ -33,7 +33,7 @@ langs/
 // src/i18n.ts
 import { init } from "i18nya";
 
-export const i18n = await init({
+const i18nya = await init({
   langDir: "./langs", // only this is required
   defaultLang: "en",
   fallbackLangs: {
@@ -41,6 +41,8 @@ export const i18n = await init({
     zh_HK: "zh_TW",
   },
 });
+
+export default i18nya;
 ```
 
 ```json

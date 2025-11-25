@@ -15,7 +15,10 @@ export const getLangName = (lang: string, displayLang?: string) =>
  * @param displayLang in what language should the name of the language be shown. By default, use native language names.
  * @returns a map of language locale → language name
  */
-export const listLang = (i18nya: I18Nya, displayLang?: string) =>
+export const listLang = <T extends string | number | symbol>(
+  i18nya: I18Nya<T>,
+  displayLang?: string,
+) =>
   new Map(
     Object.keys(i18nya.translations).map((l) => [
       l,

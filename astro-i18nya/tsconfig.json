@@ -1,11 +1,12 @@
 {
-  "exclude": ["./dist"],
+  "extends": "astro/tsconfigs/base",
+  "exclude": ["./dist", "*.config.*", "**/*.test.*"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
 
     // Environment setup & latest features
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
@@ -19,9 +20,10 @@
     "declarationMap": true,
 
     // Module resolution
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
+    // "moduleResolution": "node16",
+    // "allowImportingTsExtensions": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "resolveJsonModule": true,

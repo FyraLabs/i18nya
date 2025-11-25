@@ -1,11 +1,12 @@
 import type { I18Nya } from "i18nya";
 import type { AstroIntegration } from "astro";
-import react from "@astrojs/react";
-import Trans from "./Trans";
-import { listLang, getLangName } from "./util";
+import Trans from "./Trans.js";
+import { listLang, getLangName } from "./util.js";
 export { Trans, listLang, getLangName };
 
-export default function (i18nya: I18Nya): AstroIntegration {
+export default function astroI18nya<T extends string | number | symbol>(
+  i18nya: I18Nya<T>,
+): AstroIntegration {
   return {
     name: "astro-i18nya",
     hooks: {
@@ -16,7 +17,7 @@ export default function (i18nya: I18Nya): AstroIntegration {
             locales: Object.keys(i18nya.translations),
           },
           // required for <Trans>
-          integrations: [react({ experimentalReactChildren: true })],
+          // integrations: [react({ experimentalReactChildren: true })],
         });
       },
     },

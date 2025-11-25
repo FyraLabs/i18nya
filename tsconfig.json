@@ -1,5 +1,5 @@
 {
-  "exclude": ["./dist", "./astro-i18nya", "./examples"],
+  "exclude": ["./dist", "./astro-i18nya", "./examples", "*.config.*"],
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout

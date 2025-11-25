@@ -1,4 +1,5 @@
 import { readdirSync } from "fs";
+import { resolve } from "path";
 
 export type I18NyaConfig = {
   /** Path to directory containing language files */
@@ -41,10 +42,10 @@ export const init = async <T extends string | number | symbol = string>(
   };
   for (const entry of readdirSync(langDir, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith(".json")) {
-      const lang = entry.name.slice(0, -5);
-      const imp = await import(`${langDir}/${lang}.json`, opts);
-      i18nya.translations[lang] = imp.default;
+      const imp = await import(resolve(langDir, entry.name), opts);
+      i18nya.translations[entry.name.slice(0, -5)] = imp.default;
     }
   }
   return i18nya;
 };
+export default init;

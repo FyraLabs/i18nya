@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/FyraLabs/i18nya#readme",
   "jest": {
-    "testPathIgnorePatterns": ["<rootDir>/astro-i18nya"]
+    "testPathIgnorePatterns": ["<rootDir>/astro-i18nya", "<rootDir>/dist"]
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",

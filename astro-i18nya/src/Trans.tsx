@@ -13,6 +13,9 @@ type Props = {
  * A fake version of `<Trans>` in `react-i18next` with *very different* behaviour.
  *
  * You feed in a list of empty elements in `<Trans>`. The structure will follow the translation strings.
+ * 
+ * IMPORTANT: It is **HIGHLY RECOMMENDED** to use `experimentalReactChildren: true` for `@astrojs/react` in your astro config,
+ * otherwise this will not work correctly outside of `.tsx` files.
  *
  * @example ```tsx
  * <Trans t={t("test", { user: "John" })}>
