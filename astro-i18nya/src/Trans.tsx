@@ -1,11 +1,12 @@
 //? https://react.i18next.com/latest/trans-component
 // do something similar to ↑
 
-import { Children, cloneElement, isValidElement, ReactNode, FunctionComponent } from "react";
+import { Children, cloneElement, isValidElement } from "react";
+import type { FunctionComponent, ReactNode } from "react";
 
 type Props = {
-    children: ReactNode;
-    t: string;
+  children: ReactNode;
+  t: string;
 };
 
 /**
@@ -28,70 +29,58 @@ type Props = {
  * @param t return value of t()
  * @returns ReactNode
  */
-const Trans: FunctionComponent<Props> = ({ children, t }: Props) => {
-    // find /<\/(\d+)>/g, where group 1 parse to int is largest
-    const maxTagId = t
-        .match(/<\/(\d+)>/g)
-        ?.reduce((acc, cur) => Math.max(acc, parseInt(cur.slice(2, -1))), 0);
-    const realchildren = Children.toArray(children).filter((child) =>
-        isValidElement(child),
-    );
-    if (maxTagId > realchildren.length) {
+export default (({ children, t }: Props) => {
+  // find /<\/(\d+)>/g, where group 1 parse to int is largest
+  const maxTagId = t
+    .match(/<\/(\d+)>/g)
+    ?.reduce((acc, cur) => Math.max(acc, parseInt(cur.slice(2, -1))), 0);
+  const inputs = Children.toArray(children).filter((c) => isValidElement(c));
+  if (maxTagId ?? 0 > inputs.length) {
+    return t; // syntax error
+  }
+
+  const elms: ReactNode[] = []; // resulting list of elements
+  const tagStack = [];
+  for (let ch_idx = 0; ch_idx < t.length; ) {
+    if (t.substring(ch_idx, ch_idx + 2) == "\\<") {
+      elms.push("<");
+      ch_idx += 2;
+      continue;
+    }
+    if (t.substring(ch_idx, ch_idx + 2) == "</") {
+      let j = 0;
+      while (t[++j + ch_idx] != ">" && j + ch_idx < t.length);
+      const tag = Number.parseInt(t.substring(ch_idx++ + 1, (ch_idx += j)));
+      if (Number.isNaN(tag)) {
+        elms.push(t.substring(ch_idx - j - 1, ch_idx));
+        continue;
+      }
+      let { p, l } = tagStack.pop();
+      if (tag != p) {
         return t; // syntax error
+      }
+      elms.push(
+        cloneElement(inputs[p - 1], {}, ...elms.splice(l, elms.length - l)),
+      );
+      continue;
     }
-
-    let contents = [];
-    const tagStack = [];
-    let ch_idx = 0;
-    while (ch_idx < t.length) {
-        if (t.substring(ch_idx, ch_idx + 2) == "\\<") {
-            contents.push("<");
-            ch_idx += 2;
-            continue;
-        }
-        if (t.substring(ch_idx, ch_idx + 2) == "</") {
-            let j = 0;
-            while (t[++j + ch_idx] != ">" && j + ch_idx < t.length);
-            const tagNumber = Number.parseInt(t.substring(ch_idx + 2, ch_idx + j));
-            ch_idx += j + 1;
-            if (Number.isNaN(tagNumber)) {
-                contents.push(t.substring(ch_idx, ch_idx + j));
-                continue;
-            }
-            let { p, l } = tagStack.pop();
-            if (tagNumber != p) {
-                return t; // syntax error
-            }
-            contents.push(
-                cloneElement(
-                    realchildren[p - 1],
-                    {},
-                    ...contents.splice(l, contents.length - l),
-                ),
-            );
-            continue;
-        }
-        if (t[ch_idx] == "<") {
-            let j = 0;
-            while (t[++j + ch_idx] != ">" && j + ch_idx < t.length);
-            const tagNumber = Number.parseInt(t.substring(ch_idx + 1, ch_idx + j));
-            ch_idx += j + 1;
-            if (Number.isNaN(tagNumber)) {
-                contents.push(t.substring(ch_idx, ch_idx + j));
-                continue;
-            }
-            tagStack.push({ p: tagNumber, l: contents.length });
-            contents.push(""); // in order to splice later, contents inside a new tag element must start fresh
-            continue;
-        }
-        if (typeof contents[contents.length - 1] === "string") {
-            contents[contents.length - 1] += t[ch_idx++];
-        } else {
-            contents.push(t[ch_idx++]);
-        }
+    if (t[ch_idx] == "<") {
+      let j = 0;
+      while (t[++j + ch_idx] != ">" && j + ch_idx < t.length);
+      const tag = Number.parseInt(t.substring(ch_idx++, (ch_idx += j)));
+      if (Number.isNaN(tag)) {
+        elms.push(t.substring(ch_idx - j - 1, ch_idx));
+        continue;
+      }
+      tagStack.push({ p: tag, l: elms.length });
+      elms.push(""); // in order to splice later, contents inside a new tag element must start fresh
+      continue;
     }
-
-    return <>{contents}</>;
-};
-
-export default Trans;
+    if (typeof elms[elms.length - 1] === "string") {
+      elms[elms.length - 1] += t[ch_idx++];
+    } else {
+      elms.push(t[ch_idx++]);
+    }
+  }
+  return <>{elms}</>;
+}) satisfies FunctionComponent<Props>;

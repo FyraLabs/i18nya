@@ -9,6 +9,8 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "astro": "^5.16.0",
     "i18nya": "file:../",
     "react": "^19.2.0"
   }
