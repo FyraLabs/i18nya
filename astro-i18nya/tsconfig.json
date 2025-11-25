@@ -1,5 +1,9 @@
 {
+  "exclude": ["./dist"],
   "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+
     // Environment setup & latest features
     "lib": ["ESNext"],
     "target": "ESNext",
