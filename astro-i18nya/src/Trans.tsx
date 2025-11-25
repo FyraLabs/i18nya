@@ -31,11 +31,11 @@ type Props = {
  */
 export default (({ children, t }: Props) => {
   // find /<\/(\d+)>/g, where group 1 parse to int is largest
-  const maxTagId = t
-    .match(/<\/(\d+)>/g)
-    ?.reduce((acc, cur) => Math.max(acc, parseInt(cur.slice(2, -1))), 0);
+  const maxTagId = Math.max(
+    ...t.match(/<\/(\d+)>/g).map((i) => parseInt(i.slice(2, -1))),
+  );
   const inputs = Children.toArray(children).filter((c) => isValidElement(c));
-  if (maxTagId ?? 0 > inputs.length) {
+  if ((maxTagId ?? 0) > inputs.length) {
     return t; // syntax error
   }
 
@@ -50,7 +50,7 @@ export default (({ children, t }: Props) => {
     if (t.substring(ch_idx, ch_idx + 2) == "</") {
       let j = 0;
       while (t[++j + ch_idx] != ">" && j + ch_idx < t.length);
-      const tag = Number.parseInt(t.substring(ch_idx++ + 1, (ch_idx += j)));
+      const tag = Number.parseInt(t.substring(++ch_idx + 1, (ch_idx += j)));
       if (Number.isNaN(tag)) {
         elms.push(t.substring(ch_idx - j - 1, ch_idx));
         continue;
@@ -67,7 +67,7 @@ export default (({ children, t }: Props) => {
     if (t[ch_idx] == "<") {
       let j = 0;
       while (t[++j + ch_idx] != ">" && j + ch_idx < t.length);
-      const tag = Number.parseInt(t.substring(ch_idx++, (ch_idx += j)));
+      const tag = Number.parseInt(t.substring(++ch_idx, (ch_idx += j)));
       if (Number.isNaN(tag)) {
         elms.push(t.substring(ch_idx - j - 1, ch_idx));
         continue;
