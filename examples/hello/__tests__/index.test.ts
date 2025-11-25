@@ -1,10 +1,11 @@
 import { init } from "../../../src/index";
 import path from "path";
+import type defaultTranslations from "../langs/en.json";
 
 describe("i18nya init and makeT", () => {
   it('should return correct value for "hello"', async () => {
     const langDir = path.resolve(__dirname, "../langs");
-    const { makeT } = await init({ defaultLang: "en", langDir });
+    const { makeT } = await init<keyof typeof defaultTranslations>({ defaultLang: "en", langDir });
 
     expect(makeT("en")("hello")).toBe("Hello, World!");
   });

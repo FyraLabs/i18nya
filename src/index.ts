@@ -8,33 +8,36 @@ export type I18NyaConfig = {
   fallbackLangs?: Record<string, string>;
 };
 
-export type I18Nya = {
-  translations: Record<string, Record<string, string>>;
-  makeT: (lang: string) => (key: string, its?: Interpolations) => string;
+export type I18Nya<T extends string | number | symbol> = {
+  translations: Record<string, Record<T, string>>;
+  makeT: (lang: string) => (key: T, its?: Interpolations) => string;
   config: I18NyaConfig;
-}
+};
 
 export type Interpolations = Record<string, string | { toString(): string }>;
 const opts = { with: { type: "json" } };
 
-export const init = async (config: I18NyaConfig) => {
+export const init = async <T extends string | number | symbol = string>(
+  config: I18NyaConfig,
+) => {
   const {
     langDir,
-    defaultLang: rootLang,
+    defaultLang: rootLang = "en",
     fallbackLangs: fb = {},
   } = config;
-  let i18nya: I18Nya = {
+  let i18nya: I18Nya<T> = {
     translations: {},
-    makeT: (l) => (k, its = {}) => {
-      let s: string | undefined;
-      for (; !(s = i18nya.translations[l]?.[k]); l = fb[l] ?? rootLang)
-        if (l === rootLang)
-          return String(k);
-      for (const [k, v] of Object.entries(its))
-        s = s.replace(`{{${k}}}`, `${v}`);
-      return s;
-    },
-    config
+    makeT:
+      (l) =>
+      (k, its = {}) => {
+        let s: string | undefined;
+        for (; !(s = i18nya.translations[l]?.[k]); l = fb[l] ?? rootLang)
+          if (l === rootLang) return String(k);
+        for (const [k, v] of Object.entries(its))
+          s = s.replace(`{{${k}}}`, `${v}`);
+        return s;
+      },
+    config,
   };
   for (const entry of readdirSync(langDir, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith(".json")) {
