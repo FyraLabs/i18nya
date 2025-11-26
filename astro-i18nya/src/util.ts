@@ -7,7 +7,7 @@ import type { I18Nya } from "i18nya";
  * @returns language name
  */
 export const getLangName = (lang: string, displayLang?: string) =>
-  new Intl.DisplayNames([displayLang ?? lang], { type: "language" }).of(lang);
+  new Intl.DisplayNames([displayLang ?? lang], { type: "language", style: "narrow" }).of(lang);
 
 /**
  * List out available languages.
