@@ -27,13 +27,23 @@ export default i18nya;
 Then in `astro.config.mjs`:
 
 ```ts
-import i18nya from "./i18n";
+import i18nya from "./src/i18n";
 import astro_i18nya from "astro-i18nya";
 
 export default defineConfig({
   integrations: [astro_i18nya(i18nya)],
   // `i18n:` is not needed
 });
+```
+
+Then for all pages in `src/pages/[lang]/*.astro`:
+
+```ts
+import i18nya, { makeT } from "../../i18n.ts";
+import { makeGetStaticPaths } from "astro-i18nya";
+const t = makeT(Astro.params.lang);
+// generate paths only for languages in your `langs/` folder!
+export const getStaticPaths = makeGetStaticPaths(i18nya);
 ```
 
 ## Trans
