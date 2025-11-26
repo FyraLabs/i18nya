@@ -25,3 +25,10 @@ export const listLang = <T extends string | number | symbol>(
       getLangName(l.replace("_", "-"), displayLang),
     ]),
   );
+
+export const makeGetStaticPaths =
+  <T extends string | number | symbol>(i18nya: I18Nya<T>) =>
+  async () =>
+    Object.keys(i18nya.translations)
+      .filter((lang) => lang !== i18nya.config.defaultLang)
+      .map((lang) => ({ params: { lang: lang } }));
