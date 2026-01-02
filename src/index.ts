@@ -12,7 +12,7 @@ export type I18NyaConfig<T extends I18NyaKey> = {
 
 export type I18Nya<T extends I18NyaKey> = {
   translations: Record<string, Record<T, string>>;
-  makeT: (lang: string) => (key: T, its?: Interpolations) => string;
+  makeT: (lang?: string) => (key: T, its?: Interpolations) => string;
   config: I18NyaConfig<T>;
 };
 
@@ -25,17 +25,21 @@ export const init = async <T extends string | number | symbol = string>(
   const {
     langDir,
     defaultLang: rootLang = "en",
-    fallbackLangs: fb = {},
+    fallbackLangs = {},
     viteImports = undefined,
   } = config;
   let i18nya: I18Nya<T> = {
     translations: {},
     makeT:
-      (l) =>
-      (k, its = {}) => {
+      (lang = rootLang) =>
+      (key, its = {}) => {
         let s: string | undefined;
-        for (; !(s = i18nya.translations[l]?.[k]); l = fb[l] ?? rootLang)
-          if (l === rootLang) return String(k);
+        for (
+          ;
+          !(s = i18nya.translations[lang]?.[key]);
+          lang = fallbackLangs[lang] ?? rootLang
+        )
+          if (lang === rootLang) return String(key);
         for (const [k, v] of Object.entries(its))
           s = s.replace(`{{${k}}}`, `${v}`);
         return s;

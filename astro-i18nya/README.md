@@ -36,13 +36,13 @@ export default defineConfig({
 });
 ```
 
-Then for all pages in `src/pages/[lang]/*.astro`:
+Then for all pages in `src/pages/[...lang]/*.astro`:
 
 ```ts
 import i18nya, { makeT } from "../../i18n.ts";
 import { makeGetStaticPaths } from "astro-i18nya";
 const t = makeT(Astro.params.lang);
-// generate paths only for languages in your `langs/` folder!
+// generate paths only for languages in your `[...langs]/` folder!
 export const getStaticPaths = makeGetStaticPaths(i18nya);
 ```
 
