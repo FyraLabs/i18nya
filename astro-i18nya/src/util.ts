@@ -29,6 +29,8 @@ export const listLang = <T extends string | number | symbol>(
 export const makeGetStaticPaths =
   <T extends string | number | symbol>(i18nya: I18Nya<T>) =>
   async () =>
-    Object.keys(i18nya.translations)
-      .filter((lang) => lang !== i18nya.config.defaultLang)
-      .map((lang) => ({ params: { lang: lang } }));
+    Object.keys(i18nya.translations).map((lang) =>
+      lang === i18nya.config.defaultLang
+        ? { params: { lang: undefined } }
+        : { params: { lang: lang } },
+    );
