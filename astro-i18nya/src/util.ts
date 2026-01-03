@@ -35,5 +35,5 @@ export const makeGetStaticPaths =
     Object.keys(i18nya.translations).map((lang) =>
       lang === i18nya.config.defaultLang
         ? { params: { lang: undefined } }
-        : { params: { lang: lang } },
+        : { params: { lang: lang.replace("_", "-").toLowerCase() } },
     );
