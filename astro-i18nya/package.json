@@ -1,6 +1,6 @@
 {
   "name": "astro-i18nya",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Astro integration for i18nya: i18n as small as a cat's paw",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
