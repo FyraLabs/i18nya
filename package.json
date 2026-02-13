@@ -1,6 +1,6 @@
 {
   "name": "i18nya",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "i18n as small as a cat's paw",
   "main": "dist/index.js",
   "type": "module",
