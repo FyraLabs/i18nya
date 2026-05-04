@@ -48,6 +48,16 @@ export const getStaticPaths = makeGetStaticPaths(i18nya);
 
 ## Trans
 
+This requires `experimentalReactChildren` in `defineConfig` in `astro.config.mjs`:
+```
+export default defineConfig({
+  integrations: [
+    react({ experimentalReactChildren: true }),
+    astro_i18nya(i18nya),
+  ],
+});
+```
+
 ```tsx
 <Trans t={t("test", { user: "John" })}>
   <b />
