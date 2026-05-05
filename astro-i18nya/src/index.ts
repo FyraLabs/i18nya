@@ -9,7 +9,12 @@ export type AstroI18nyaConfig = {
   redirectToDefaultLocale?: boolean;
 };
 
-export default function astroI18nya<T extends string | number | symbol>(
+/**
+ * Astro integration for i18nya.
+ * @param i18nya return value of `init()` from `i18nya`
+ * @param config routing behavior overrides
+ */
+export default function astro_i18nya<T extends string | number | symbol>(
   i18nya: I18Nya<T>,
   { prefixDefaultLocale = false, redirectToDefaultLocale = false }: AstroI18nyaConfig = {},
 ): AstroIntegration {
