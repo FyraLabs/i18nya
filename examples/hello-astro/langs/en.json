@@ -1,0 +1,4 @@
+{
+  "hello": "Hello Astro!",
+  "page": "This is the {{page}} page!"
+}

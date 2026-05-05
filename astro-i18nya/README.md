@@ -4,8 +4,8 @@ I18n support for astro.
 
 ## Features
 
-- Integration with `i18nya` and `astro`
-- A `<Trans />` component that works better than the one in `react-i18next`!
+- Integration with [`i18nya`](https://www.npmjs.com/package/i18nya) and [`astro`](https://astro.build/)
+- A `<Trans />` component that works better than the one in [`react-i18next`](https://react.i18next.com/latest/trans-component)!
 
 ## Installation
 
@@ -42,11 +42,21 @@ Then for all pages in `src/pages/[...lang]/*.astro`:
 import i18nya, { makeT } from "../../i18n.ts";
 import { makeGetStaticPaths } from "astro-i18nya";
 const t = makeT(Astro.params.lang);
-// generate paths only for languages in your `[...langs]/` folder!
+// generate paths only for languages in your `langs/` folder!
 export const getStaticPaths = makeGetStaticPaths(i18nya);
 ```
 
 ## Trans
+
+This requires `experimentalReactChildren` in `astro.config.mjs`:
+```
+export default defineConfig({
+  integrations: [
+    react({ experimentalReactChildren: true }),
+    astro_i18nya(i18nya),
+  ],
+});
+```
 
 ```tsx
 <Trans t={t("test", { user: "John" })}>
@@ -58,6 +68,9 @@ export const getStaticPaths = makeGetStaticPaths(i18nya);
 With `"test": "Hello <1>{{user}}</1>, welcome to <2><1>my site</1></2>."`, the above element will become:
 
 ```html
-<b>Hello John</b>, welcome to <a href="https://example.com"><b>my site</b></a
->.
+Hello <b>John</b>, welcome to <a href="https://example.com"><b>my site</b></a>.
 ```
+
+## `prefixDefaultLocale`
+
+Pass `prefixDefaultLocale: true` to `astro_i18nya()` and `makeGetStaticPaths()`. See their respective JSDoc for more info.

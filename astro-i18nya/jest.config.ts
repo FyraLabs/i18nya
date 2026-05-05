@@ -1,7 +1,14 @@
-import type {Config} from 'jest';
+import type { Config } from 'jest';
 
 const config: Config = {
-  "testEnvironment": "jsdom"
+  preset: "ts-jest",
+  testEnvironment: "jsdom",
+  testPathIgnorePatterns: [
+    "<rootDir>/dist"
+  ],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
 };
 
 export default config;

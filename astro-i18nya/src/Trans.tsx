@@ -44,9 +44,12 @@ export default (({ children, t }: Props) => {
 
   const elms: ReactNode[] = []; // resulting list of elements
   const tagStack = [];
-  for (let ch_idx = 0; ch_idx < t.length; ) {
+  for (let ch_idx = 0; ch_idx < t.length;) {
     if (t.substring(ch_idx, ch_idx + 2) == "\\<") {
-      elms.push("<");
+      if (typeof elms[elms.length - 1] === "string")
+        elms[elms.length - 1] += "<";
+      else
+        elms.push("<");
       ch_idx += 2;
       continue;
     }

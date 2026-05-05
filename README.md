@@ -7,7 +7,7 @@ Its tiny footprint and simple API make it perfect for projects that want localiz
 
 - 🐾 **Tiny**: Less than 100 lines of TypeScript, 0 dependencies.
 - ⏬️ **Flexible fallback**: Supports fallback languages out of the box.
-- 🧩 **Extensible**: Can be easily extended to integrate into other frameworks (e.g. `astro-i18nya`).
+- 🧩 **Extensible**: Can be easily extended to integrate into other frameworks (e.g. [`astro-i18nya`](https://www.npmjs.com/package/astro-i18nya)).
 - 🔨 **Typed**: Optional translation key completions for `t()`.
 
 ## Installation
@@ -37,12 +37,13 @@ const i18nya = await init({
   langDir: "../langs", // only this is required
   defaultLang: "en",
   fallbackLangs: {
-    // all languages fallback to English, specify special fallbacks here
+    // all languages fallback to defaultLang, specify special fallbacks here
     zh_HK: "zh_TW",
   },
   // if you use vite, you need to import manually using this:
   viteImports: import.meta.glob("../langs/*.json", { eager: true }),
-  // otherwise, i18nya will search & import the json files using node modules (which vite does not ship)
+  // otherwise, i18nya will search & import the json files using node modules
+  // (which vite does not ship)
 });
 
 export default i18nya;

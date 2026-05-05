@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths } from "astro";
+import i18nya, { makeT } from "../../i18n.ts";
+const t = makeT(Astro.params.lang);
+export const getStaticPaths = (() => {
+    return ["foo", "bar", "baz"].flatMap(page => Object.keys(i18nya.translations).map((lang) =>
+      lang === i18nya.config.defaultLang
+            ? { params: { lang: undefined, page } }
+            : { params: { lang: lang, page } },
+    ));
+}) satisfies GetStaticPaths;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<h1>Astro</h1>
+		<h2>{t("hello")}</h2>
+		<h3>{t("page", { "page": Astro.params.page })}</h3>
+	</body>
+</html>
