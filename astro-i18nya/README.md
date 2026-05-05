@@ -46,6 +46,10 @@ const t = makeT(Astro.params.lang);
 export const getStaticPaths = makeGetStaticPaths(i18nya);
 ```
 
+## Examples
+
+See [`hello-astro`](https://github.com/FyraLabs/i18nya/tree/main/examples/hello-astro).
+
 ## Trans
 
 This requires `experimentalReactChildren` in `astro.config.mjs`:
@@ -74,3 +78,4 @@ Hello <b>John</b>, welcome to <a href="https://example.com"><b>my site</b></a>.
 ## `prefixDefaultLocale`
 
 Pass `prefixDefaultLocale: true` to `astro_i18nya()` and `makeGetStaticPaths()`. See their respective JSDoc for more info.
+

@@ -27,20 +27,11 @@
     "url": "https://github.com/FyraLabs/i18nya/issues"
   },
   "homepage": "https://github.com/FyraLabs/i18nya#readme",
-  "jest": {
-    "testPathIgnorePatterns": [
-      "<rootDir>/astro-i18nya",
-      "<rootDir>/dist"
-    ]
-  },
   "devDependencies": {
-    "@babel/core": "^7.28.5",
-    "@babel/preset-env": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
-    "babel-jest": "^30.2.0",
     "jest": "^30.2.0",
+    "ts-jest": "^29.4.9",
     "typescript": "^5.9.3"
   }
 }
