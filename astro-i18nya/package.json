@@ -44,7 +44,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "astro": "^5.16.0",
+    "astro": "^6.2.2",
     "i18nya": "^0.2.0",
     "react": "^19.2.0"
   }

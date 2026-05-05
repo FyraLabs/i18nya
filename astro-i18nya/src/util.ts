@@ -34,9 +34,10 @@ export const listLang = <T extends string | number | symbol>(
  * Build a `getStaticPaths` factory for Astro i18n routes.
  *
  * Returns a function that expands the provided `staticPaths` for every
- * language in `i18nya.translations`. The default language uses
+ * language in `i18nya.translations`. By default, the default language uses
  * `{ params: { lang: undefined } }` so its route is not prefixed, while
- * other languages use `{ params: { lang } }`.
+ * other languages use `{ params: { lang } }`. When `prefixDefaultLocale`
+ * is true, the default language also uses `{ params: { lang } }`.
  *
  * @param i18nya return value of `init()` from `i18nya`
  * @param staticPaths original `getStaticPaths` array to be localized
@@ -46,14 +47,19 @@ export const makeGetStaticPaths =
   <T extends string | number | symbol>(
     i18nya: I18Nya<T>,
     staticPaths: GetStaticPathsResult = [],
+    { prefixDefaultLocale = false }: { prefixDefaultLocale?: boolean } = {},
   ): (() => GetStaticPathsResult) =>
     (): GetStaticPathsResult =>
       staticPaths.flatMap((origPath): GetStaticPathsResult =>
-        Object.keys(i18nya.translations).map((lang): GetStaticPathsItem => ({
-          ...origPath,
-          params: {
-            ...origPath.params,
-            lang: lang === i18nya.config.defaultLang ? undefined : lang,
-          },
-        })),
+        Object.keys(i18nya.translations)
+          .map((lang): GetStaticPathsItem => ({
+            ...origPath,
+            params: {
+              ...origPath.params,
+              lang:
+                lang === i18nya.config.defaultLang && !prefixDefaultLocale
+                  ? undefined
+                  : lang,
+            },
+          })),
       );

@@ -39,6 +39,18 @@ describe("makeGetStaticPaths", () => {
     expect(result[1].params.slug).toBe("home");
   });
 
+  it("includes default language when prefixDefaultLocale is true", () => {
+    const i18nya = makeI18nya("en", ["en", "ja"]);
+    const staticPaths: GetStaticPathsResult = [{ params: { slug: "home" } }];
+
+    const result = makeGetStaticPaths(i18nya, staticPaths, { prefixDefaultLocale: true })();
+
+    expect(result[0].params.lang).toBe("en");
+    expect(result[0].params.slug).toBe("home");
+    expect(result[1].params.lang).toBe("ja");
+    expect(result[1].params.slug).toBe("home");
+  });
+
   it("returns empty array when no static paths provided", () => {
     const i18nya = makeI18nya("en", ["en", "fr"]);
     const result = makeGetStaticPaths(i18nya)();
