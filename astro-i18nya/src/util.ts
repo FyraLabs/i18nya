@@ -46,16 +46,16 @@ export const listLang = <T extends string | number | symbol>(
 export const makeGetStaticPaths =
   <T extends string | number | symbol>(
     i18nya: I18Nya<T>,
-    staticPaths: GetStaticPathsResult = [],
+    staticPaths: GetStaticPathsResult = [{ params: {} }],
     { prefixDefaultLocale = false }: { prefixDefaultLocale?: boolean } = {},
   ): (() => GetStaticPathsResult) =>
     (): GetStaticPathsResult =>
-      staticPaths.flatMap((origPath): GetStaticPathsResult =>
+      staticPaths.flatMap(({ params, props }): GetStaticPathsResult =>
         Object.keys(i18nya.translations)
           .map((lang): GetStaticPathsItem => ({
-            ...origPath,
+            props,
             params: {
-              ...origPath.params,
+              ...params,
               lang:
                 lang === i18nya.config.defaultLang && !prefixDefaultLocale
                   ? undefined

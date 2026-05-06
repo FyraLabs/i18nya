@@ -51,10 +51,11 @@ describe("makeGetStaticPaths", () => {
     expect(result[1].params.slug).toBe("home");
   });
 
-  it("returns empty array when no static paths provided", () => {
+  it("returns static paths even when no static paths are provided", () => {
     const i18nya = makeI18nya("en", ["en", "fr"]);
     const result = makeGetStaticPaths(i18nya)();
 
-    expect(result).toEqual([]);
+    expect(result[0].params.lang).toBe(undefined);
+    expect(result[1].params.lang).toBe("fr");
   });
 });
