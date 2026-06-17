@@ -33,13 +33,13 @@ export const init = async <T extends string | number | symbol = string>(
     makeT:
       (lang = rootLang) =>
       (key, its = {}) => {
-        let s: string | undefined;
+        let s: string | undefined, l = lang;
         for (
           ;
-          !(s = i18nya.translations[lang]?.[key]);
-          lang = fallbackLangs[lang] ?? rootLang
+          !(s = i18nya.translations[l]?.[key]);
+          l = fallbackLangs[l] ?? rootLang
         )
-          if (lang === rootLang) return String(key);
+          if (l === rootLang) return String(key);
         for (const [k, v] of Object.entries(its))
           s = s.replace(`{{${k}}}`, `${v}`);
         return s;
