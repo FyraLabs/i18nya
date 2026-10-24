@@ -34,7 +34,6 @@
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "strictNullChecks": false,
     // "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noUncheckedSideEffectImports": true,

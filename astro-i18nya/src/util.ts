@@ -1,5 +1,7 @@
 import type { GetStaticPathsItem, GetStaticPathsResult } from "astro";
-import type { I18Nya } from "i18nya";
+import type { I18Nya, I18NyaKey } from "i18nya";
+
+const toBcp47 = (lang: string) => lang.replaceAll("_", "-");
 
 /**
  * Obtain the language name.
@@ -7,11 +9,14 @@ import type { I18Nya } from "i18nya";
  * @param displayLang in what language should the name of the language be shown. By default, use native language names.
  * @returns language name
  */
-export const getLangName = (lang: string, displayLang?: string) =>
-  new Intl.DisplayNames([displayLang ?? lang], {
+export const getLangName = (lang: string, displayLang?: string) => {
+  // i18nya file names commonly use `ja_JP`, but BCP 47 wants `ja-JP`
+  const tag = toBcp47(lang);
+  return new Intl.DisplayNames([displayLang ? toBcp47(displayLang) : tag], {
     type: "language",
     style: "narrow",
-  }).of(lang);
+  }).of(tag);
+};
 
 /**
  * List out available languages.
@@ -19,14 +24,14 @@ export const getLangName = (lang: string, displayLang?: string) =>
  * @param displayLang in what language should the name of the language be shown. By default, use native language names.
  * @returns a map of language locale → language name
  */
-export const listLang = <T extends string | number | symbol>(
+export const listLang = <T extends I18NyaKey>(
   i18nya: I18Nya<T>,
   displayLang?: string,
 ) =>
   new Map(
     Object.keys(i18nya.translations).map((l) => [
       l,
-      getLangName(l.replace("_", "-"), displayLang),
+      getLangName(l, displayLang),
     ]),
   );
 
@@ -44,7 +49,7 @@ export const listLang = <T extends string | number | symbol>(
  * @returns a `getStaticPaths` function for Astro
  */
 export const makeGetStaticPaths =
-  <T extends string | number | symbol>(
+  <T extends I18NyaKey>(
     i18nya: I18Nya<T>,
     staticPaths: GetStaticPathsResult = [{ params: {} }],
     { prefixDefaultLocale = false }: { prefixDefaultLocale?: boolean } = {},
