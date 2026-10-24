@@ -1,6 +1,6 @@
 import type { GetStaticPathsResult } from "astro";
 import type { I18Nya } from "i18nya";
-import { makeGetStaticPaths } from "./util";
+import { getLangName, listLang, makeGetStaticPaths } from "./util";
 
 const makeI18nya = (defaultLang: string, langs: string[]): I18Nya<string> =>
   ({
@@ -57,5 +57,17 @@ describe("makeGetStaticPaths", () => {
 
     expect(result[0].params.lang).toBe(undefined);
     expect(result[1].params.lang).toBe("fr");
+  });
+});
+
+describe("getLangName / listLang", () => {
+  it("accepts underscore locale ids", () => {
+    expect(getLangName("ja_JP", "en")).toBe("Japanese (Japan)");
+    expect(getLangName("en", "zh_TW")).toBe("英文");
+  });
+
+  it("lists languages keyed by their original ids", () => {
+    const i18nya = makeI18nya("en", ["en", "zh_Hant_TW"]);
+    expect([...listLang(i18nya, "en").keys()]).toEqual(["en", "zh_Hant_TW"]);
   });
 });

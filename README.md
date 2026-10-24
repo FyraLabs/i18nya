@@ -34,8 +34,10 @@ langs/
 import { init } from "i18nya";
 
 const i18nya = await init({
-  langDir: "../langs", // only this is required
-  defaultLang: "en",
+  // only this is required. without `viteImports`, this is resolved
+  // relative to the current working directory, not this file!
+  langDir: "langs",
+  defaultLang: "en", // default: "en"
   fallbackLangs: {
     // all languages fallback to defaultLang, specify special fallbacks here
     zh_HK: "zh_TW",
@@ -47,6 +49,7 @@ const i18nya = await init({
 });
 
 export default i18nya;
+export const { makeT } = i18nya;
 ```
 
 ```json
@@ -65,10 +68,13 @@ export default i18nya;
 
 ```ts
 // usage
-import { makeT } from "i18n";
+import { makeT } from "./i18n";
 const t = makeT("ja_JP");
 console.log(t("i18nya.description", { emoji: "🐾" })); // 🐾 猫の足くらいちっちゃい国際化ツール
 ```
+
+Every `{{name}}` placeholder is replaced; unknown placeholders are left as-is.
+Missing (or empty) translations fall back through `fallbackLangs`, then `defaultLang`, then the key itself.
 
 ### Typed Keys & Completions
 
@@ -77,9 +83,9 @@ The type for the keys can be manually specified:
 ```ts
 import { init } from "i18nya";
 // requires tsconfig `resolveJsonModule`
-import { defaultTranslations } from "../langs/en.json";
+import type en from "../langs/en.json";
 
-const i18nya = init<keyof typeof defaultTranslations>(...);
+const i18nya = await init<keyof typeof en>(...);
 ```
 
 Your editor will now show the translation keys when invoking `t()`.

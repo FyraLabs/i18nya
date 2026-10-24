@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "astro": "^6.2.2",
-    "astro-i18nya": "^0.2.6"
+    "astro-i18nya": "^0.2.6",
+    "i18nya": "^0.2.6"
   }
 }

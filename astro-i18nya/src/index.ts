@@ -1,4 +1,4 @@
-import type { I18Nya } from "i18nya";
+import type { I18Nya, I18NyaKey } from "i18nya";
 import type { AstroIntegration } from "astro";
 import Trans from "./Trans.js";
 import { listLang, getLangName, makeGetStaticPaths } from "./util.js";
@@ -14,7 +14,7 @@ export type AstroI18nyaConfig = {
  * @param i18nya return value of `init()` from `i18nya`
  * @param config routing behavior overrides
  */
-export default function astro_i18nya<T extends string | number | symbol>(
+export default function astro_i18nya<T extends I18NyaKey>(
   i18nya: I18Nya<T>,
   { prefixDefaultLocale = false, redirectToDefaultLocale = false }: AstroI18nyaConfig = {},
 ): AstroIntegration {
@@ -32,8 +32,6 @@ export default function astro_i18nya<T extends string | number | symbol>(
               fallbackType: "redirect",
             },
           },
-          // required for <Trans>
-          // integrations: [react({ experimentalReactChildren: true })],
         });
       },
     },

@@ -1,17 +1,17 @@
 ---
-import type { GetStaticPaths } from "astro";
+import { makeGetStaticPaths } from "astro-i18nya";
 import i18nya, { makeT } from "../../i18n.ts";
-const t = makeT(Astro.params.lang);
-export const getStaticPaths = (() => {
-    return ["foo", "bar", "baz"].flatMap(page => Object.keys(i18nya.translations).map((lang) =>
-      lang === i18nya.config.defaultLang
-            ? { params: { lang: undefined, page } }
-            : { params: { lang: lang, page } },
-    ));
-}) satisfies GetStaticPaths;
+
+export const getStaticPaths = makeGetStaticPaths(
+  i18nya,
+  ["foo", "bar", "baz"].map((page) => ({ params: { page } })),
+);
+
+const lang = Astro.params.lang ?? i18nya.config.defaultLang;
+const t = makeT(lang);
 ---
 
-<html lang="en">
+<html lang={lang.replaceAll("_", "-")}>
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -23,6 +23,6 @@ export const getStaticPaths = (() => {
 	<body>
 		<h1>Astro</h1>
 		<h2>{t("hello")}</h2>
-		<h3>{t("page", { "page": Astro.params.page })}</h3>
+		<h3>{t("page", { page: Astro.params.page! })}</h3>
 	</body>
 </html>

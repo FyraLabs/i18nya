@@ -12,8 +12,10 @@ I18n support for astro.
 ```sh
 npx astro add astro-i18nya
 # or
-npm install astro-i18nya
+npm install astro-i18nya i18nya react
 ```
+
+`astro`, `i18nya` and `react` are peer dependencies.
 
 Make sure you called `init()` from `i18nya` in `src/i18n.ts`:
 
@@ -74,6 +76,9 @@ With `"test": "Hello <1>{{user}}</1>, welcome to <2><1>my site</1></2>."`, the a
 ```html
 Hello <b>John</b>, welcome to <a href="https://example.com"><b>my site</b></a>.
 ```
+
+`<n/>` inserts the n-th element as-is (handy for `<br />`), and `\<` is a literal `<`.
+If the translation is malformed (unbalanced tags, missing elements…), the raw string is rendered instead of crashing.
 
 ## `prefixDefaultLocale`
 

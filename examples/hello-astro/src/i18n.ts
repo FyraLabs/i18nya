@@ -8,5 +8,4 @@ const i18nya = await init<keyof typeof en>({
 });
 
 export default i18nya;
-const { makeT } = i18nya;
-export { makeT };
+export const { makeT } = i18nya;
